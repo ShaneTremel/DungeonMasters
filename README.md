@@ -2,4 +2,4 @@
 
 Intermediate Java Midterm Project
 
-Created By: Solomon Paprocki
+Created By: Solomon Paprocki, Shane Tremel
