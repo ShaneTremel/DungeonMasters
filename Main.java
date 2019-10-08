@@ -5,9 +5,20 @@ public class Main{
     public static void main(String[] args){
         System.out.println("Welcome to Dungeon Masters Java.  This is a text-based RPG.");
         while (RUNGAME){
-            System.out.println("You can type shop to visit the shop, or you can type dungeon to explore the dungeon.");
+            System.out.println("You can type shop to visit the shop, or you can type dungeon to explore the dungeon.(type 'quit' to quit)");
             String userInput = getInput("What do you want to do?");
             checkInput(userInput);
+        }
+    }
+    public static void setClass(String className){
+        if (className.equalsIgnoreCase("warrior")){
+            User user = new User(25,25,50,15);
+        }
+        if (className.equalsIgnoreCase("thief")){
+            User user = new User(25,25,15,50);
+        }
+        if (className.equalsIgnoreCase("mage")){
+            User user = new User(35,35,25,25);
         }
     }
     public static String getInput(String message){
