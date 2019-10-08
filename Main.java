@@ -2,8 +2,14 @@ import java.util.Scanner;
 public class Main{
     static Scanner input = new Scanner(System.in);
     static boolean RUNGAME = true;
+    static boolean setClass = false;
     public static void main(String[] args){
         System.out.println("Welcome to Dungeon Masters Java.  This is a text-based RPG.");
+        while (!setClass){
+            System.out.println("You can be a warrior, thief, or mage.");
+            String userInput = getInput("What class do you want?");
+            setClass(userInput);
+        }
         while (RUNGAME){
             System.out.println("You can type shop to visit the shop, or you can type dungeon to explore the dungeon.(type 'quit' to quit)");
             String userInput = getInput("What do you want to do?");
@@ -13,12 +19,15 @@ public class Main{
     public static void setClass(String className){
         if (className.equalsIgnoreCase("warrior")){
             User user = new User(25,25,50,15);
+            setClass = true;
         }
         if (className.equalsIgnoreCase("thief")){
             User user = new User(25,25,15,50);
+            setClass = true;
         }
         if (className.equalsIgnoreCase("mage")){
             User user = new User(35,35,25,25);
+            setClass = true;
         }
     }
     public static String getInput(String message){

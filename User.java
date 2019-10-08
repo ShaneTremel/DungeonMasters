@@ -6,13 +6,6 @@ public class User{
     private int runSpeed;
     
     //Constructor
-    /*public Movie(String myTitle, String myDirector, int myYear, double myRating){
-        title = myTitle;
-        director = myDirector;
-        year = myYear;
-        rating = myRating;
-    }*/
-    
     public User(int maxHP, int currentHP, int attackPower, int runSpeed){
         this.maxHP = maxHP;
         this.currentHP = currentHP;
