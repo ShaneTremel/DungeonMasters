@@ -3,17 +3,34 @@ public class Main{
     static Scanner input = new Scanner(System.in);
     static boolean RUNGAME = true;
     static boolean setClass = false;
+    static String userInput = null;
+    final static String PATH = "saveFile.csv";
+    
     public static void main(String[] args){
-        System.out.println("Welcome to Dungeon Masters Java.  This is a text-based RPG.");
-        while (!setClass){
-            System.out.println("You can be a warrior, thief, or mage.");
-            String userInput = getInput("What class do you want?");
-            setClass(userInput);
-        }
+        System.out.println("Welcome to Dungeon Masters Java.  This is a text-based RPG.  Would you like to load a save file?");
+        userInput = getInput("Would you like to load a save file?");
+        if(userInput.equalsIgnoreCase("yes")){userInput = "true";}
+        hasSaveFile(Boolean.parseBoolean(userInput));
+       
         while (RUNGAME){
             System.out.println("You can type shop to visit the shop, or you can type dungeon to explore the dungeon.(type 'quit' to quit)");
-            String userInput = getInput("What do you want to do?");
+            userInput = getInput("What do you want to do?");
             checkInput(userInput);
+            System.out.println("You have this much gold"+User.getGold());
+        }
+    }
+    
+    public static void hasSaveFile(boolean hasSaveFile){
+        if(hasSaveFile){
+            setClass = true;
+            User user = SaveFileReader.readFromFile(PATH);;
+        }
+    }
+    public static void trySetClass(){
+            while (!setClass){
+            System.out.println("You can be a warrior, thief, or mage.");
+            userInput = getInput("What class do you want?");
+            setClass(userInput);
         }
     }
     public static void setClass(String className){
