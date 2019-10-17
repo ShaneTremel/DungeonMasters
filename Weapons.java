@@ -10,14 +10,16 @@ public class Weapons
     private String type = "";    //Weapon type: Sword, Axe, Bow, etc
     private int rarity = 0;      //Randomly generated spawn rate
     private int levelLock = 0;   //Locks rare weapons until certain level is attained
+    private int cost = 0;
 
     //Constructor for all weapons
-    public Weapons(String type, int damage, int rarity, int levelLock) 
+    public Weapons(String type, int damage, int rarity, int levelLock, int cost) 
     {
         this.type = type;
         this.damage = damage;
         this.rarity = rarity;
         this.levelLock = levelLock;
+        this.cost = cost;
     }
 
     //Starting weapon
@@ -48,6 +50,11 @@ public class Weapons
     {
         return levelLock;
     }
+    
+    public int getCost()
+    {
+        return cost;
+    }
 
     public void setStats()
     {
@@ -75,11 +82,15 @@ public class Weapons
             rarity = 1;
             damage = randNum.nextInt(30);
             levelLock = 0;
+            cost = randNum.nextInt(20);
             if(damage < 10)
             {
                 damage = 10 + randNum.nextInt(15);
             }
-            
+            if(cost < 5)
+            {
+                cost = 10;
+            }
         }
         //Tier 2 Weapons
         else if(rarityNum > 46 && rarityNum <=80)
@@ -87,9 +98,14 @@ public class Weapons
             rarity = 2;
             damage = randNum.nextInt(60);
             levelLock = 5;
+            cost = randNum.nextInt(40);
             if(damage < 30)
             {
                 damage = 30 + randNum.nextInt(30);
+            }
+            if(cost < 25)
+            {
+                cost = 25;
             }
         }
         //Tier 3 Weapons
@@ -98,9 +114,14 @@ public class Weapons
             rarity = 3;
             damage = randNum.nextInt(90);
             levelLock = 10;
+            cost = randNum.nextInt(75);
             if(damage < 60)
             {
                 damage = 60 + randNum.nextInt(50);
+            }
+            if(cost < 50)
+            {
+                cost = 50;
             }
         }
     }
