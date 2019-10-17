@@ -1,8 +1,5 @@
 import java.io.*;
 import java.util.*;
-//Create level lock for weapon based on stats
-//Create randomly generated stats
-//
 
 public class Weapons
 {
@@ -29,6 +26,15 @@ public class Weapons
         damage = 10;
         rarity = 0;
         levelLock = 0;
+    }
+    
+    public void resetStats()
+    {
+        type = "";
+        damage = 0;
+        rarity = 1;
+        levelLock = 0;
+        cost = 0;
     }
 
     public String getType()
