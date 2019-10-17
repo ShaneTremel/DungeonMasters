@@ -11,7 +11,7 @@ public class Main{
     static int numberOfRooms = 4;//(int)Math.floor(Math.random()*5+1);
 
     public static void main(String[] args){
-        System.out.println("Welcome to Dungeon Masters Java.  This is a text-based RPG.  Would you like to load a save file?");
+        System.out.println("Welcome to Dungeon Masters Java.  This is a text-based RPG.");
         userInput = getInput("Would you like to load a save file?");
         if(userInput.equalsIgnoreCase("yes")){userInput = "true";}
         hasSaveFile(Boolean.parseBoolean(userInput));
@@ -20,7 +20,6 @@ public class Main{
             System.out.println("You can type shop to visit the shop, or you can type dungeon to explore the dungeon.(type 'quit' to quit)");
             userInput = getInput("What do you want to do?");
             checkInput(userInput);
-            RUNGAME = false;
             if(userInput.equalsIgnoreCase("shop"))
                 System.out.println("You have this much gold"+User.getGold());
         }
@@ -93,22 +92,22 @@ public class Main{
             numberOfRooms + " rooms.");
         System.out.println("What room do you want to explore? (Type a number)");
         int userRoomNumber = input.nextInt();
-        // defualt room 1 (needs to be random eventually)
+        // default room 1 (needs to be random eventually)
         if(userRoomNumber == 1){
             System.out.println("You walk into the first room, a monster attacks you!");
             fightState = true;
         }
-        // defualt room 2 (needs to be random eventually)
+        // default room 2 (needs to be random eventually)
         if(userRoomNumber == 2){
             System.out.println("You walk into the second room, a chest sits on the ground, but it's locked...");
 
         }
-        // defualt room 3 (needs to be random eventually)
+        // default room 3 (needs to be random eventually)
         if(userRoomNumber == 3){
             System.out.println("You walk into the third room, you see a weapon on the ground");
             
         }
-        // defualt room 4 (needs to be random eventually)
+        // default room 4 (needs to be random eventually)
         if(userRoomNumber == 4){
             System.out.println("You walk into the fourth room, there's nothing here");
 
