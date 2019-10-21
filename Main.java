@@ -3,11 +3,10 @@ import java.lang.Math;
 public class Main{
     static Scanner input = new Scanner(System.in);
     static boolean RUNGAME = true;
+    static User user = null;
     static boolean setClass = false;
     static String userInput = null;
     final static String PATH = "saveFile.csv";
-    static boolean fightState = false;
-    static int numberOfRooms = 4;//(int)Math.floor(Math.random()*5+1);
 
     public static void main(String[] args){
         System.out.println("Welcome to Dungeon Masters Java.  This is a text-based RPG.");
@@ -16,8 +15,15 @@ public class Main{
         if(userInput.equalsIgnoreCase("yes")){userInput = "true";}
         hasSaveFile(Boolean.parseBoolean(userInput));
         
+        while (!setClass){
+            System.out.println("You can be a warrior, thief, or mage.");
+            String userInput = getInput("What class do you want?");
+            setClass(userInput);
+        }
+        if (setClass)
+            help();
+        
         while (RUNGAME){
-            System.out.println("You can type shop to visit the shop, or you can type dungeon to explore the dungeon.(type 'quit' to quit)");
             userInput = getInput("What do you want to do?");
             checkInput(userInput);
         }
@@ -25,8 +31,10 @@ public class Main{
 
     public static void hasSaveFile(boolean hasSaveFile){
         if(hasSaveFile){
-            setClass = true;
-            User user = SaveFileReader.readFromFile(PATH);;
+            User user = SaveFileReader.readFromFile(PATH);
+            if (user != null)
+                setClass = true;
+            System.out.println(user);
         }
     }
 
@@ -40,15 +48,15 @@ public class Main{
 
     public static void setClass(String className){
         if (className.equalsIgnoreCase("warrior")){
-            User user = new User(25,25,50,15);
+            User user = new User("warrior",25,25,50,15,15);
             setClass = true;
         }
         if (className.equalsIgnoreCase("thief")){
-            User user = new User(25,25,15,50);
+            User user = new User("thief",25,25,15,50,30);
             setClass = true;
         }
         if (className.equalsIgnoreCase("mage")){
-            User user = new User(35,35,25,25);
+            User user = new User("mage",35,35,25,25,15);
             setClass = true;
         }
     }
@@ -60,15 +68,24 @@ public class Main{
     }
 
     public static void checkInput(String userInput){
-        if (userInput.equalsIgnoreCase("quit")){
+        if (userInput.equalsIgnoreCase("quit"))
             quit();
-        }
-        if (userInput.equalsIgnoreCase("shop")){
+        if (userInput.equalsIgnoreCase("shop"))
             shop();
-        }
-        if (userInput.equalsIgnoreCase("dungeon")){
+        if (userInput.equalsIgnoreCase("dungeon"))
             dungeon();
-        }
+        if (userInput.equalsIgnoreCase("help"))
+            help();  
+        if (userInput.equalsIgnoreCase("save"))
+            save();  
+    }
+    
+    public static void save(){
+        SaveFileWriter.writeToFile(PATH,user);
+    }
+    
+    public static void help(){
+        System.out.println("You can type shop to visit the shop, or you can type dungeon to explore the dungeon.(type 'quit' to quit)");
     }
 
     public static void quit(){
@@ -80,14 +97,11 @@ public class Main{
     }
 
     public static void shop(){
-        System.out.println("You have this much gold"+User.getGold());
+        System.out.printf("You have this much gold: %d%n",User.getGold());
     }  
-    // 4 rooms - filled with treasure, weapons, potions, or monsters
-
+    
     public static void dungeon(){
-        // ask user for action
-        Dungeon dungeon = new Dungeon(numberOfRooms,fightState);
-        
+        Dungeon dungeon = new Dungeon(4);        
     }   
 
 }

@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class SaveFileWriter{
-    public static void readFromFile(String path, User user){
+    public static void writeToFile(String path, User user){
         BufferedWriter writer = null;
         try{ 
             writer = new BufferedWriter(new FileWriter(path, false)); 

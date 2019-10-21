@@ -1,15 +1,14 @@
 import java.util.Scanner;
 public class Dungeon{
     static Scanner input = new Scanner(System.in);
-    public Dungeon(int roomCount, boolean fightState){
+    public Dungeon(int roomCount){
         // creates rooms 
-        System.out.println("You walk into the dungeon, infront of you are "+
-            roomCount + " rooms.");
+        System.out.printf("You walk into the dungeon, in front of you are %d rooms.%n",roomCount);
         System.out.println("What room do you want to explore? (Type a number)");
         int userRoomNumber = input.nextInt();
         if(userRoomNumber == 1){
             System.out.println("You walk into the first room, a monster attacks you!");
-            fightState = true;
+            boolean fightState = true;
         }
         if(userRoomNumber == 2){
             System.out.println("You walk into the second room, a chest sits on the ground, but it's locked...");
