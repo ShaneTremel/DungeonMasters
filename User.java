@@ -14,6 +14,7 @@ public class User{
         this.attackPower = attackPower;
         this.runSpeed = runSpeed;
         this.gold = gold;
+        this.className = className;
     }
     
     //Getters and Setters

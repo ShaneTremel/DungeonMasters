@@ -32,9 +32,10 @@ public class Main{
     public static void hasSaveFile(boolean hasSaveFile){
         if(hasSaveFile){
             User user = SaveFileReader.readFromFile(PATH);
-            if (user != null)
+            if (user != null){
                 setClass = true;
-            System.out.println(user);
+                System.out.println(user);
+            }
         }
     }
 
