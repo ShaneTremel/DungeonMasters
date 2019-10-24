@@ -15,7 +15,7 @@
 
 + Be able to read save data so that you never lose you progress
 + Save data files with an MD5 checksum to ensure that the user did not edit their save file
-+ Have three unique dungeons
++ Has dungeon randomization
 + Have NPCs that the user can communicate with
 + Have quests that the user can recieve from NPCs, so that the user is not just traversing dungeons for gold
 + Create a tutorial quest to introduce the functionality of the game (If the user has a save file, this would be skipped)
