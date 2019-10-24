@@ -42,4 +42,7 @@ public class User{
             ", a running speed of up to %d kilometers/hour, and %d gold.%n", className, currentHP,maxHP,
             attackPower,runSpeed,gold);
     }
+    public void loseHP(int damage){
+        currentHP = currentHP - damage;
+    }
 }
