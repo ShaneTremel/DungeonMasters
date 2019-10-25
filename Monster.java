@@ -19,7 +19,7 @@ public class Monster{
         
         int ranAttackPower;
         ranAttackPower = attackPower[r];
-        System.out.println(ranMonsterType+ ","+ranMaxHP+","+ranCurrentHP+","+ranAttackPower);
+        //System.out.println(ranMonsterType+ ","+ranMaxHP+","+ranCurrentHP+","+ranAttackPower);
     }
     
     // getters and setters
