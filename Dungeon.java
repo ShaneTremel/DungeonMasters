@@ -1,9 +1,9 @@
 import java.util.Scanner;
 import java.util.Random;
 public class Dungeon{
-    static Scanner input = new Scanner(System.in);
-    static boolean runDungeon = true;
-    static String userInput = null;
+    private Scanner input = new Scanner(System.in);
+    private boolean runDungeon = true;
+    private String userInput = null;
     // add runDungeon so user can leave dungeon whenver, and arent forced to complete it
     // look at weapon damage and edit monster health where needed
     // coin system, drop when killed, gained when appropiate
@@ -14,12 +14,12 @@ public class Dungeon{
         System.out.printf("You walk into the dungeon, in front of you are %d rooms.%n",roomCount);
 
         while (runDungeon){
-            userInput = getInput("What room do you want to explore? (one,two,three,four)");
+            userInput = getInput("What room do you want to explore? (1,2,3,4)");
             checkInput(userInput);
         }
     }
 
-    public static String getInput(String message){
+    public String getInput(String message){
         System.out.println(message);
         String returnMessage = input.nextLine();
         return returnMessage;
@@ -27,25 +27,23 @@ public class Dungeon{
 
     public void checkInput(String userInput){
         //System.out.println("Type 'exit' to exit current dungeon");
-        while(!(userInput.equalsIgnoreCase("exit"))){
-            if(userInput.equalsIgnoreCase("one")){
+            if(Integer.parseInt(userInput)==1){
                 System.out.println("You walk into the first room, the door behind you slams shut!");
                 monsterSpawn();
             }
-            if(userInput.equalsIgnoreCase("two")){
+            if(Integer.parseInt(userInput)==2){
                 System.out.println("You walk into the second room, a chest sits on the ground, but it's locked...");
             }
-            if(userInput.equalsIgnoreCase("three")){
+            if(Integer.parseInt(userInput)==3){
                 System.out.println("You walk into the third room, you see a weapon on the ground");
             }
-            if(userInput.equalsIgnoreCase("four")){
+            if(Integer.parseInt(userInput)==4){
                 System.out.println("You walk into the fourth room, there's nothing here");
             }
             if(userInput.equalsIgnoreCase("exit")){
                 System.out.println("Exiting Dungeon");
                 runDungeon = false;
             }
-        }
     }
 
     public void monsterSpawn(){
@@ -54,15 +52,14 @@ public class Dungeon{
 
         Monster currMonster = new Monster(randomNumber);
 
-        System.out.println(randomNumber);
-        System.out.println("A "+Monster.getMonsterType()+ " rushes towards you.");
+        System.out.printf("A %s rushes towards you.%n",currMonster.getMonsterType());
 
         while(!(userInput.equalsIgnoreCase("run"))){
-            userInput = null;
             userInput = getInput("RUN or ATTACK");
             if(userInput.equalsIgnoreCase("attack"))
-                userFight(currMonster);
-            // add run option
+                //userFight(currMonster);
+            if(userInput.equalsIgnoreCase("run"))
+                System.out.println("You ran away");
         }
     }
 

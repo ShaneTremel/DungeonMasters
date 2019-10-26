@@ -1,41 +1,37 @@
 import java.util.Random;
 public class Monster{
-    private static int[] pickMoster = new int[]{1,2,3,4};
-    private static String[] monsterType = new String[]{"spider","goblin","beast","golem" };
-    private static int[] maxHP = new int[]{75,50,120,300};
-    private static int[] currentHP = new int[]{75,50,120,300};
-    private static int[] attackPower = new int[]{7,5,13,5};
-
+    private int[] pickMoster = new int[]{1,2,3,4};
+    private String[] monsterType = new String[]{"spider","goblin","beast","golem" };
+    private int[] maxHP = new int[]{75,50,120,300};
+    private int[] currentHP = new int[]{75,50,120,300};
+    private int[] attackPower = new int[]{7,5,13,5};
+    private String ranMonsterType;
+    private int ranMaxHP;
+    private int ranCurrentHP;
+    private int ranAttackPower;
     
-    public Monster(int r){
-        String ranMonsterType;
-        ranMonsterType = monsterType[r];
-        
-        int ranMaxHP;
+    public Monster(int r){    
+        ranMonsterType = monsterType[r]; 
         ranMaxHP = maxHP[r];
-        
-        int ranCurrentHP;
         ranCurrentHP = currentHP[r];
-        
-        int ranAttackPower;
         ranAttackPower = attackPower[r];
-        //System.out.println(ranMonsterType+ ","+ranMaxHP+","+ranCurrentHP+","+ranAttackPower);
     }
     
     // getters and setters
-    public static int[] getCurrentHP(){
+    public int[] getCurrentHP(){
         return currentHP;
     }
-    public static int[] getMaxHP(){
+    public int[] getMaxHP(){
         return maxHP;
     }
-    public static int[] getAttackPower(){
+    public int[] getAttackPower(){
         return attackPower;
     }
-    public static String[] getMonsterType(){
+    public String[] getMonsterType(){
         return monsterType;
     }
     
+    //DO WE NEED ANY FOF THESE SETTERS?
     public void setCurrentHP(int[] currentHP){
         this.currentHP = currentHP;
     }
@@ -47,5 +43,11 @@ public class Monster{
     }
     public void setMonsterType(String[] monsterType){
         this.monsterType = monsterType;
+    }
+    
+    //To String
+    @Override
+    public String toString(){
+        return ranMonsterType;
     }
 }
