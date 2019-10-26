@@ -10,7 +10,6 @@ public class Main{
 
     public static void main(String[] args){
         System.out.println("Welcome to Dungeon Masters Java.  This is a text-based RPG.");
-        
         userInput = getInput("Would you like to load a save file?");
         if(userInput.equalsIgnoreCase("yes")){userInput = "true";}
         hasSaveFile(Boolean.parseBoolean(userInput));
@@ -98,7 +97,7 @@ public class Main{
     }
 
     public static void shop(){
-        System.out.printf("You have this much gold: %d%n",User.getGold());
+        System.out.printf("You have this much gold: %d%n",user.getGold());
     }  
     
     public static void dungeon(){
