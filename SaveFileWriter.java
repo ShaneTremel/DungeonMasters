@@ -8,11 +8,12 @@ public class SaveFileWriter{
         BufferedWriter writer = null;
         try{ 
             writer = new BufferedWriter(new FileWriter(path, false)); 
-            String line = String.join(",",Integer.toString(user.getMaxHP()),Integer.toString(user.getCurrentHP()),Integer.toString(user.getAttackPower()),
-                Integer.toString(user.getRunSpeed()),Integer.toString(user.getGold()));
+            String line = String.join(",",String.valueOf(user.getMaxHP()),String.valueOf(user.getCurrentHP()),String.valueOf(user.getAttackPower()),
+                String.valueOf(user.getRunSpeed()),String.valueOf(user.getGold()),user.getClassName());
             writer.write(line);
             writer.close();
         }
         catch(IOException e){System.out.println("Couldn't save file.");}
+        catch(Exception e){System.out.println("Something went wrong.");}
     }
 }

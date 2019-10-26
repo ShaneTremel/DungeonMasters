@@ -5,7 +5,7 @@ public class User{
     private int currentHP;
     private int attackPower;
     private int runSpeed;
-    private static int gold;
+    private int gold;
     
     //Constructor
     public User(String className, int maxHP, int currentHP, int attackPower, int runSpeed, int gold){
@@ -30,7 +30,7 @@ public class User{
     public int getRunSpeed(){
         return runSpeed;
     }
-    public static int getGold(){
+    public int getGold(){
         return gold;
     }
     public String getClassName(){

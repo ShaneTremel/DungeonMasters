@@ -14,14 +14,7 @@ public class Main{
         if(userInput.equalsIgnoreCase("yes")){userInput = "true";}
         hasSaveFile(Boolean.parseBoolean(userInput));
         
-        while (!setClass){
-            System.out.println("You can be a warrior, thief, or mage.");
-            String userInput = getInput("What class do you want?");
-            setClass(userInput);
-        }
-        if (setClass)
-            help();
-        
+        trySetClass();
         while (RUNGAME){
             userInput = getInput("What do you want to do?");
             checkInput(userInput);
@@ -30,7 +23,7 @@ public class Main{
 
     public static void hasSaveFile(boolean hasSaveFile){
         if(hasSaveFile){
-            User user = SaveFileReader.readFromFile(PATH);
+            user = SaveFileReader.readFromFile(PATH);
             if (user != null){
                 setClass = true;
                 System.out.println(user);
@@ -44,19 +37,21 @@ public class Main{
             userInput = getInput("What class do you want?");
             setClass(userInput);
         }
+        if (setClass)
+            help();
     }
 
     public static void setClass(String className){
         if (className.equalsIgnoreCase("warrior")){
-            User user = new User("warrior",25,25,50,15,15);
+            user = new User("warrior",25,25,50,15,15);
             setClass = true;
         }
         if (className.equalsIgnoreCase("thief")){
-            User user = new User("thief",25,25,15,50,30);
+            user = new User("thief",25,25,15,50,30);
             setClass = true;
         }
         if (className.equalsIgnoreCase("mage")){
-            User user = new User("mage",35,35,25,25,15);
+            user = new User("mage",35,35,25,25,15);
             setClass = true;
         }
     }
