@@ -46,4 +46,17 @@ public class User{
     public void loseHP(int damage){
         currentHP = currentHP - damage;
     }
+    public void loseGold(int cost){
+        gold -= cost;
+    }
+    public void healthPotion(){
+        maxHP += 5;
+        currentHP += 5;
+    }
+    public void strengthPotion(){
+        attackPower += 5;
+    }
+    public void speedPotion(){
+        runSpeed +=5;
+    }
 }

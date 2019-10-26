@@ -3,6 +3,7 @@ import java.lang.Math;
 public class Main{
     static Scanner input = new Scanner(System.in);
     static boolean RUNGAME = true;
+    static boolean SHOPRUN = false;
     static User user = null;
     static boolean setClass = false;
     static String userInput = null;
@@ -92,8 +93,46 @@ public class Main{
     }
 
     public static void shop(){
-        System.out.printf("You have this much gold: %d%n",user.getGold());
+        SHOPRUN = true;
+        while (SHOPRUN){
+            System.out.printf("You have this much gold: %d%n",user.getGold());
+            System.out.println("You can check inventory, buy [item name], or leave");
+            userInput = getInput("SHOPKEEP: What do you want to do?");
+            checkInputShop(userInput);
+        }
     }  
+    
+    public static void checkInputShop(String userInput){
+        if (userInput.equalsIgnoreCase("leave"))
+            SHOPRUN = false;
+        if (userInput.equalsIgnoreCase("check inventory")){
+            System.out.println("We have a HEALTH POTION(+5 MAX HP), STRENGTH POTION(+5 STRENGTH), SPEED POTION(+5 RUN SPEED)");
+            System.out.println("They are all 5 gold.");
+        }
+        if (userInput.equalsIgnoreCase("buy HEALTH POTION")){
+             if(user.getGold()>=5){
+                 user.loseGold(5);
+                 user.healthPotion();
+                 System.out.printf("Your HP is now %d.%n",user.getMaxHP());
+             }else{System.out.println("You don't have enough gold.");}
+        }
+        if (userInput.equalsIgnoreCase("buy STRENGTH POTION")){
+             if(user.getGold()>=5){
+                 user.loseGold(5);
+                 user.strengthPotion();
+                 System.out.printf("Your Strength is now %d Newtons.%n",user.getAttackPower());
+             }else{System.out.println("You don't have enough gold.");}
+        }
+        if (userInput.equalsIgnoreCase("buy SPEED POTION")){
+             if(user.getGold()>=5){
+                 user.loseGold(5);
+                 user.speedPotion();
+                 System.out.printf("Your Speed is now %d km/hr.%n",user.getRunSpeed());
+             }else{System.out.println("You don't have enough gold.");}
+        }
+        if (userInput.equalsIgnoreCase("save"))
+             System.out.println("You have to leave the shop to save");
+    }
     
     public static void dungeon(){
         Dungeon dungeon = new Dungeon(4);        
