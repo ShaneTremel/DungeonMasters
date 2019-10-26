@@ -6,7 +6,7 @@
 + Validates these commands
 + Uses if statements for command validation
 + Has a currency system which utilizes arithmetic operations
-+ Utilizes arrays for prices and items
++ Utilizes arrays for monster generation
 + Utilize loops for navigating through dungeon/shop/etc.
 + The User will be an object with properties (HP, strength, gold, etc.)
 + Will be able to write save data to an external file (containing current HP, total HP, gold, items, dungeon progress, etc.)
