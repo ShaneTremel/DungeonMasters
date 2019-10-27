@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.lang.Math;
+import java.util.Random;
 public class Main{
     static Scanner input = new Scanner(System.in);
     static boolean RUNGAME = true;
@@ -98,7 +99,7 @@ public class Main{
             System.out.printf("You have this much gold: %d%n",user.getGold());
             System.out.println("You can check inventory, buy [item name], or leave");
             userInput = getInput("SHOPKEEP: What do you want to do?");
-            checkInputShop(userInput);
+            checkInputShop(userInput); 
         }
     }  
     
@@ -135,7 +136,10 @@ public class Main{
     }
     
     public static void dungeon(){
-        Dungeon dungeon = new Dungeon(4);        
+        Random r = new Random();
+        int randomNumber = r.nextInt(4)+1;
+        
+        Dungeon dungeon = new Dungeon(randomNumber);        
     }   
 
 }
