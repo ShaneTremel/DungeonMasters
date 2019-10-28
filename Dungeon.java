@@ -30,16 +30,16 @@ public class Dungeon{
         if(Integer.parseInt(userInput) == 1){
             createRoom();
         }
-        if(Integer.parseInt(userInput) == 2){
+        else if(Integer.parseInt(userInput) == 2){
             createRoom();
         }
-        if(Integer.parseInt(userInput) == 3){
+        else if(Integer.parseInt(userInput) == 3){
             createRoom();
         }
-        if(Integer.parseInt(userInput) == 4){
+        else if(Integer.parseInt(userInput) == 4){
             createRoom();
         }
-        if(userInput.equalsIgnoreCase("exit")){
+        else if(userInput.equalsIgnoreCase("exit")){
             System.out.println("Exiting Dungeon");
             runDungeon = false;
         }
@@ -48,7 +48,7 @@ public class Dungeon{
     public void createRoom(){
         Random r = new Random();
         int randomNumber = r.nextInt(4)+1;
-        
+
         if (randomNumber == 1){
             while(inRoom){
                 System.out.println("You walk into the room, the door behind you slams shut!");
@@ -68,7 +68,41 @@ public class Dungeon{
             }
         }
         if(randomNumber == 4){
-            System.out.println("You walk into the room, there's nothing here");
+            Random randNum = new Random();
+            int npcNum = randNum.nextInt(101);
+            if(npcNum >= 0 && npcNum <= 14)
+            {
+                userInput = getInput("You find an old soldier." + "\"Ive been lost for days!"  
+                    + "Do you know the way out?\"" + " \nType yes to help or no to move on: ");
+                if(userInput.equalsIgnoreCase("yes"))
+                {
+                    System.out.println("You showed the soldier the way out. ");
+                }
+                else if(userInput.equalsIgnoreCase("no"))
+                {
+                    System.out.println("You lied to the soldier and moved on, "
+                        + "leaving him to look for the exit on his own. ");
+                }
+            }
+            else if(npcNum >= 15 && npcNum <= 29)
+            {
+                userInput = getInput("A spider crawls up to you. You ready"
+                    + " your weapon, but the spider \ndoes not attack you. Do you"
+                    + " wish to pet the spider? Type yes to pet or no to move on: ");
+                if(userInput.equalsIgnoreCase("yes"))
+                {
+                    System.out.println("You pet the spider. It waved its legs in the air "
+                        + ", then returned to the darkness from whence it came. ");
+                }
+                else if(userInput.equalsIgnoreCase("no"))
+                {
+                    System.out.println("You ignored the spider and left the room. ");
+                }
+            }
+            else if(npcNum >= 30)
+            {
+                System.out.println("You walk into the room, there's nothing here");
+            }
         }
     }
 
@@ -86,7 +120,6 @@ public class Dungeon{
         //userFight(currMonster);
         if(userInput.equalsIgnoreCase("run"))
         System.out.println("You ran away");
-
         }*/
     }
 
