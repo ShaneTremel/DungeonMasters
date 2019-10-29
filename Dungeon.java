@@ -11,12 +11,12 @@ public class Dungeon{
     // coin system, drop when killed, gained when appropiate
     // randiomized dungeons 
 
-    public Dungeon(int rooms){
-        System.out.printf("You walk into the dungeon, in front of you are %d rooms.%n",rooms);
+    public Dungeon(){
+        System.out.println("You walk into the dungeon... explore or leave?");
 
         while (runDungeon){
-            userInput = getInput("What room do you want to explore? (1-"+rooms+") type 'exit' to leave dungeon");
-            checkInput(userInput,rooms);
+            userInput = getInput("What do you want to do?");
+            checkInput(userInput);
         }
     }
 
@@ -26,20 +26,12 @@ public class Dungeon{
         return returnMessage;
     }
 
-    public void checkInput(String userInput,int roomCount){
-        if(Integer.parseInt(userInput) == 1){
+    public void checkInput(String userInput){
+        if(userInput.equalsIgnoreCase("explore")){
             createRoom();
         }
-        else if(Integer.parseInt(userInput) == 2){
-            createRoom();
-        }
-        else if(Integer.parseInt(userInput) == 3){
-            createRoom();
-        }
-        else if(Integer.parseInt(userInput) == 4){
-            createRoom();
-        }
-        else if(userInput.equalsIgnoreCase("exit")){
+        
+        if(userInput.equalsIgnoreCase("exit")){
             System.out.println("Exiting Dungeon");
             runDungeon = false;
         }
