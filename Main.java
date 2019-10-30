@@ -136,10 +136,7 @@ public class Main{
     }
     
     public static void dungeon(){
-        Random r = new Random();
-        int randomNumber = r.nextInt(4)+1;
-        
-        Dungeon dungeon = new Dungeon(randomNumber);        
+        Dungeon dungeon = new Dungeon();        
     }   
 
 }

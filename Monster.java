@@ -3,8 +3,8 @@ public class Monster{
     private int[] pickMoster = new int[]{1,2,3,4};
     private String[] monsterType = new String[]{"spider","goblin","beast","golem" };
     private int[] maxHP = new int[]{75,50,120,300};
-    private int[] currentHP = new int[]{75,50,120,300};
-    private int[] attackPower = new int[]{7,5,13,5};
+    private static int[] currentHP = new int[]{75,50,120,300};
+    private static int[] attackPower = new int[]{7,5,13,5};
     private String ranMonsterType;
     private int ranMaxHP;
     private int ranCurrentHP;
@@ -18,13 +18,13 @@ public class Monster{
     }
     
     // getters and setters
-    public int[] getCurrentHP(){
+    public static int[] getCurrentHP(){
         return currentHP;
     }
     public int[] getMaxHP(){
         return maxHP;
     }
-    public int[] getAttackPower(){
+    public static int[] getAttackPower(){
         return attackPower;
     }
     public String[] getMonsterType(){
