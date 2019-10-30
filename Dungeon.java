@@ -113,23 +113,11 @@ public class Dungeon{
 
         System.out.printf("A %s rushes towards you.%n",currMonster.getMonsterType());
         userFight(currMonster,randomNumber);
-        /*while(!(userInput.equalsIgnoreCase("run"))){
-        userInput = getInput("RUN or ATTACK");
-        if(userInput.equalsIgnoreCase("attack"))
-        //userFight(currMonster);
-        if(userInput.equalsIgnoreCase("run"))
-        System.out.println("You ran away");
-        }*/
     }
 
     public void userFight(Monster currMonster, int number){
         boolean userDead = false;
         boolean currMonsterDead = false;
-
-        // get rid of int user = get, use setters instead... call lose hp
-        // user hp + attack
-
-        // monster hp + attack
 
         // fight takes place in while loop
         while(fightState){
@@ -148,7 +136,8 @@ public class Dungeon{
                     fightState = false;
                 }
                 if(User.getCurrentHP() <= 0){
-                    System.out.println("You are dead...");
+                    System.out.println("You were knocked out...\nYou wake up hours later in a barrack, your health has been restored.");
+                    User.gainHP();
                     // User.setCoins(0);
                     fightState = false;
                     runDungeon = false;

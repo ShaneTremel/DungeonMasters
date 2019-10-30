@@ -1,7 +1,7 @@
 public class User{
     //Instance Variables
     private String className;
-    private int maxHP;
+    private static int maxHP;
     private static int currentHP;
     private static int attackPower;
     private int runSpeed;
@@ -21,7 +21,7 @@ public class User{
     public static int getCurrentHP(){
         return currentHP;
     }
-    public int getMaxHP(){
+    public static int getMaxHP(){
         return maxHP;
     }
     public static int getAttackPower(){
@@ -49,6 +49,9 @@ public class User{
     }
     public static void loseHP(int damage){
         currentHP = currentHP - damage;
+    }
+    public static void gainHP(){
+        currentHP = maxHP;
     }
     public void loseGold(int cost){
         gold -= cost;
