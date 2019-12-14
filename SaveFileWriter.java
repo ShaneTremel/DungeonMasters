@@ -9,8 +9,8 @@ public class SaveFileWriter{
         System.out.println("Saving...");
         try{ 
             writer = new BufferedWriter(new FileWriter(path, false)); 
-            String line = String.join(",",String.valueOf(user.getMaxHP()),String.valueOf(user.getCurrentHP()),String.valueOf(user.getAttackPower()),
-                String.valueOf(user.getRunSpeed()),String.valueOf(user.getGold()),user.getClassName());
+            //save userTeam as just the names of the team members
+            String line = String.join(",",user.getUserName());
             writer.write(line);
             writer.close();
             System.out.println("Save Complete.");

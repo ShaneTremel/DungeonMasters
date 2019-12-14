@@ -2,19 +2,20 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 public class SaveFileReader{
     public static User readFromFile(String path){
         BufferedReader reader = null;
         User user = null;
-        int[] userInfo = {0,0,0,0,0};
+        String userName = null;
+        List<PlayerInfo> userTeam = null;
         try{ 
             reader = new BufferedReader(new FileReader(path)); String line = reader.readLine();
             String[] data = line.split(",");
-            for(int i = 0; i<5; i++){
-                userInfo[i] = Integer.parseInt(data[i]);
-            }
-            user = new User(data[5],userInfo[0],userInfo[1],userInfo[2],userInfo[3],userInfo[4]);
+            userName = data[0];
+            //get userTeam as Strings of names
+            user = new User(userName,userTeam);
             reader.close();
         }
         catch(FileNotFoundException e){System.out.println("Could not read from save file.");}

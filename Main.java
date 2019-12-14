@@ -1,61 +1,323 @@
 import java.util.Scanner;
-import java.lang.Math;
-import java.util.Random;
+import java.util.Collections;
+import java.io.FileNotFoundException;
+import java.util.InputMismatchException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 public class Main{
-    static Scanner input = new Scanner(System.in);
-    static boolean RUNGAME = true;
-    static boolean SHOPRUN = false;
-    static User user = null;
-    static boolean setClass = false;
-    static String userInput = null;
-    final static String PATH = "saveFile.csv";
-
+    static User user;
+    private static Scanner input = new Scanner(System.in);
+    private static List<PlayerInfo> database = new ArrayList<PlayerInfo>(loadFromFile("fantasyOverwatch.csv"));
+    private static List<PlayerInfo> userTeam = new ArrayList<PlayerInfo>(6);
+    private static List<PlayerInfo> playerSearch = new ArrayList<PlayerInfo>();
+    private static String userInput;
+    private static boolean RUN = true;
+    public static boolean DRAFTING = false;
+    private static int draftCount = 6;
+    private static int draftCountTank = 2;
+    private static int draftCountDamage = 2;
+    private static int draftCountHealer = 2;
+    private static int numberOfTeams = 8; // default value for number of teams
     public static void main(String[] args){
-        System.out.println("Welcome to Dungeon Masters Java.  This is a text-based RPG.");
-        userInput = getInput("Would you like to load a save file?");
-        if(userInput.equalsIgnoreCase("yes")){userInput = "true";}
-        hasSaveFile(Boolean.parseBoolean(userInput));
-        
-        trySetClass();
-        while (RUNGAME){
-            userInput = getInput("What do you want to do?");
-            checkInput(userInput);
+        // System.out.println("Welcome to Fantasy OverWatch!!"); 
+        // userInput = getInput("Login(L) or Create Account(A)");
+        // if(userInput.equalsIgnoreCase("l")){
+        // // add login function
+        // }
+        // if(userInput.equalsIgnoreCase("a")){
+        // // add create new account funtion
+        // // password needs to be hash encrypted (part of stretch goal for mod vs user)
+        // }
+        while(RUN){
+            try{
+                if (!DRAFTING){
+                    System.out.println("Please select an option:");
+                    System.out.println("(1) Start a League"); // should ask for number of users, then draft
+                    System.out.println("(2) View User Team"); // print user team
+                    System.out.println("(3) View Overwatch League Players"); // search any player on the spreadsheet 
+                    System.out.println("(4) Quit"); // prompt user to save 
+                    menu(input.nextLine());
+                    continue;
+                }
+                System.out.printf("Which player would you like to draft? (%d more tank, %d more healer, %d more damage)%n",draftCountTank, draftCountHealer, draftCountDamage);            
+                draft(input.nextLine());
+            }
+            catch(InputMismatchException e){
+                System.out.println("Please enter a valid NUMBER");
+                input.next();
+            }
+            catch(Exception e){
+                System.out.println("Please enter a valid input...");
+            }        
         }
     }
 
-    public static void hasSaveFile(boolean hasSaveFile){
-        if(hasSaveFile){
-            user = SaveFileReader.readFromFile(PATH);
-            if (user != null){
-                setClass = true;
-                System.out.println(user);
+    public static void menu(String choice){
+        switch(choice){
+            case("1"):
+            if(user==null){
+                DRAFTING = true;
+                print(database);
+            }else{
+                System.out.println("You already drafted!");
+            }
+            break;
+            case("2"):
+            viewTeam();
+            break;
+            case("3"):
+            sortPlayers();
+            break;
+            case("4"):
+            exit();
+            break;
+            default:
+            System.out.println("Please enter a valid input. (1-4)");
+        }
+    }
+
+    public static void draft(String playerName){
+        boolean validPlayer = false;
+        for(PlayerInfo p : userTeam){
+            if (playerName.equalsIgnoreCase(p.getName())){
+                System.out.printf("%s is already on your team!%n", p.getName()); 
+                return;
             }
         }
+        for(PlayerInfo p : database){
+            if (playerName.equalsIgnoreCase(p.getName())){
+                validPlayer = true;
+                switch(p.getRole()){
+                    case Healer:
+                    if(draftCountHealer > 0){
+                        userTeam.add(p);
+                        System.out.printf("%s has been added to your team!%n", p.getName());
+                        draftCountHealer--; 
+                        draftCount--;
+                    }else{System.out.println("You already have two healers!");}
+                    break;
+                    case Damage:
+                    if(draftCountDamage > 0){
+                        userTeam.add(p);
+                        System.out.printf("%s has been added to your team!%n", p.getName());
+                        draftCountDamage--;   
+                        draftCount--;
+                    }else{System.out.println("You already have two damages!");}
+                    break;
+                    case Tank:
+                    if(draftCountTank > 0){
+                        userTeam.add(p);
+                        System.out.printf("%s has been added to your team!%n", p.getName());
+                        draftCountTank--;   
+                        draftCount--;
+                    }else{System.out.println("You already have two tanks!");}
+                    break;
+                    default:
+                    System.out.println("This should not happen");
+                }
+            }
+        }
+        if(!validPlayer)
+            System.out.println("Not a valid player!");
+        if(draftCount<=0){
+            DRAFTING = false;
+            String userName = "";
+            try{
+                System.out.println("What is your team name?");
+                userName = input.nextLine();
+            }
+            catch(Exception e){
+                System.out.println("Please enter a valid input...");
+            }    
+            user = new User(userName,userTeam);
+        }
     }
 
-    public static void trySetClass(){
-        while (!setClass){
-            System.out.println("You can be a warrior, thief, or mage.");
-            userInput = getInput("What class do you want?");
-            setClass(userInput);
-        }
-        if (setClass)
-            help();
+    //public static void draft(){
+    // do{
+    // numberOfTeams = getInt("How many teams in your league? (Min '2', Max '8')");
+    // }while(!(numberOfTeams >= 2 && numberOfTeams <= 8));
+    //Draft draft = new Draft();
+    //}
+
+    public static void viewTeam(){
+        if(user != null){
+            System.out.printf("%n%s%n",user.getUserName());
+            print(user.getTeam());
+        }else{System.out.println("You must draft a team before you can view your team!");}
     }
 
-    public static void setClass(String className){
-        if (className.equalsIgnoreCase("warrior")){
-            user = new User("warrior",25,25,50,15,15);
-            setClass = true;
+    public static void sortPlayers(){
+        int choice;
+        System.out.println("How would you like to sort the players?");
+        System.out.println("(1)  Alphabetical"); // should ask for number of users, then draft
+        System.out.println("(2)  Most Elims"); // sort by elims
+        System.out.println("(3)  Least Deaths"); // sort by deaths
+        System.out.println("(4)  By Role"); // sort by role
+        System.out.println("(5)  Most Healing"); // sort by healing
+        System.out.println("(6)  Most Blocked Damage"); // sort by blocked
+        System.out.println("(7)  Hero Played"); // sort by hero
+        System.out.println("(8)  Overwatch Team"); // sort by ow team
+        System.out.println("(9)  Specific Player"); // ask user for player, print that players stats
+
+        //I don't think this should be an option for this method
+        //System.out.println("(9)  Back to Menu"); // back to other menu
+
+        boolean printDatabase = true;
+        choice = input.nextInt();
+        switch(choice){
+            case(1): // alphabetical
+            Collections.sort(database,new Comparator<PlayerInfo>(){
+                    public int compare(PlayerInfo p1, PlayerInfo p2){
+                        return p1.getName().compareTo(p2.getName());
+                    }
+                });
+            break;
+            case(2): // elims
+            database.sort(new Comparator<PlayerInfo>(){
+                    public int compare(PlayerInfo p1, PlayerInfo p2){
+                        if(p1.getEliminations() > p2.getEliminations())
+                            return -1;
+                        if(p1.getEliminations() < p2.getEliminations())
+                            return 1;
+                        return 0;
+                    }
+                });
+            break;
+            case(3): // deaths
+            database.sort(new Comparator<PlayerInfo>(){
+                    public int compare(PlayerInfo p1, PlayerInfo p2){
+                        if(p1.getDeaths() > p2.getDeaths())
+                            return 1;
+                        if(p1.getDeaths() < p2.getDeaths())
+                            return -1;
+                        return 0;
+                    }
+                });
+            break;
+            case(4): // role
+            //userInput = getInput("Which role? (Damage,Healer,Tank)");
+            Collections.sort(database,new Comparator<PlayerInfo>(){
+                    public int compare(PlayerInfo p1, PlayerInfo p2){
+                        return p1.getRole().compareTo(p2.getRole());
+                    }
+                });
+            break;
+            case(5): // healing
+            Collections.sort(database,new Comparator<PlayerInfo>(){
+                    public int compare(PlayerInfo p1, PlayerInfo p2){
+                        return p2.getHealing() - p1.getHealing();
+                    }
+                });
+            break;
+            case(6):  // blocked
+            Collections.sort(database,new Comparator<PlayerInfo>(){
+                    public int compare(PlayerInfo p1, PlayerInfo p2){
+                        return p2.getBlocked() - p1.getBlocked();
+                    }
+                });
+            break;
+            case(7): // hero
+            Collections.sort(database,new Comparator<PlayerInfo>(){
+                    public int compare(PlayerInfo p1, PlayerInfo p2){
+                        return p1.getHero().compareTo(p2.getHero());
+                    }
+                });
+            break;
+            case(8): // sort by team
+            Collections.sort(database,new Comparator<PlayerInfo>(){
+                    public int compare(PlayerInfo p1, PlayerInfo p2){
+                        return p1.getOWTeam().compareTo(p2.getOWTeam());
+                    }
+                });
+            break;
+            case(9): // specific player
+            printDatabase = false;
+            System.out.println("Enter a player: ");
+            String playerName = input.next();
+            for(PlayerInfo p : database){
+                if (playerName.equalsIgnoreCase(p.getName())){
+                    playerSearch.add(p);
+                }
+            }
+            print(playerSearch);
+            System.out.println();
+            break;
+
+            //Dont think this option is neccesary
+            //case(9): // exit to menu
+            //menu(userInput);
+
+            default: // reprint sortPlayers()
+            System.out.println("Please enter a valid input.");
+            sortPlayers();
         }
-        if (className.equalsIgnoreCase("thief")){
-            user = new User("thief",25,25,15,50,30);
-            setClass = true;
+
+        if(printDatabase)
+            print(database);
+    }
+
+    public static void exit(){ 
+        RUN = false;
+        System.out.println("Progress Saved... Exiting.");
+    }
+
+    public static void print(Collection<PlayerInfo> players){
+        System.out.printf("%n%-15s%-15s%-9s%-8s%-10s%-10s%-17s%s%n%n","Player","Eliminations","Deaths","Role","Healing","Blocked","Preferred Hero","Team");
+        for(PlayerInfo player: players){
+            System.out.printf("%-15s%-15.2f%-9.2f%-8s%-10d%-10d%-17s%s%n",player.getName(),player.getEliminations(),player.getDeaths(),player.getRole(),player.getHealing(),player.getBlocked(),player.getHero(),player.getOWTeam()); 
         }
-        if (className.equalsIgnoreCase("mage")){
-            user = new User("mage",35,35,25,25,15);
-            setClass = true;
+    }
+
+    public static ArrayList<PlayerInfo> loadFromFile(String path){
+        ArrayList<PlayerInfo> owTeams = new ArrayList();
+
+        try{
+            BufferedReader reader = new BufferedReader(new FileReader(path));
+            String line = reader.readLine();
+            while((line = reader.readLine()) != null){
+                String[] columns = line.split(",");
+
+                String player = columns[0];
+                double elims = Double.parseDouble(columns[1]);
+                double deaths = Double.parseDouble(columns[2]);
+                Role role = Role.valueOf(columns[3]);
+                int healing = Integer.parseInt(columns[4]);
+                int blocked = Integer.parseInt(columns[5]);
+                Hero hero = Hero.valueOf(columns[6]);
+                OWTeam owTeam = OWTeam.valueOf(columns[7]);
+
+                PlayerInfo playerInfo = new PlayerInfo(player,elims,deaths,role,healing,blocked,hero,owTeam);
+                owTeams.add(playerInfo);
+            }
+            reader.close();
         }
+        catch (FileNotFoundException e) {
+            System.out.println("File not found");
+            System.out.println(e);
+        }
+        catch (IOException e) {
+            System.out.println("Could not read from file");
+            System.out.println(e);
+        }
+        catch (NumberFormatException e) {
+            System.out.println("Invalid numerical parse");
+            System.out.println(e);
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println("Invalid enum parse");
+            System.out.println(e);
+        }
+        catch (Exception e) {
+            System.out.println("Unknown exception");
+            System.out.println(e);
+        }
+        return owTeams;
     }
 
     public static String getInput(String message){
@@ -64,79 +326,9 @@ public class Main{
         return returnMessage;
     }
 
-    public static void checkInput(String userInput){
-        if (userInput.equalsIgnoreCase("quit"))
-            quit();
-        if (userInput.equalsIgnoreCase("shop"))
-            shop();
-        if (userInput.equalsIgnoreCase("dungeon"))
-            dungeon();
-        if (userInput.equalsIgnoreCase("help"))
-            help();  
-        if (userInput.equalsIgnoreCase("save"))
-            save();  
+    public static int getInt(String message){
+        System.out.println(message);
+        int returnInt = input.nextInt();
+        return returnInt;
     }
-    
-    public static void save(){
-        SaveFileWriter.writeToFile(PATH,user);
-    }
-    
-    public static void help(){
-        System.out.println("You can type shop to visit the shop, or you can type dungeon to explore the dungeon.(type 'quit' to quit)");
-    }
-
-    public static void quit(){
-        String areYouSure = getInput("Are you sure you want to quit?  Any unsaved data will be lost.");
-        if(areYouSure.equalsIgnoreCase("yes") || areYouSure.equalsIgnoreCase("y")){
-            RUNGAME = false;
-            System.out.println("Thanks for playing!");
-        }
-    }
-
-    public static void shop(){
-        SHOPRUN = true;
-        while (SHOPRUN){
-            System.out.printf("You have this much gold: %d%n",user.getGold());
-            System.out.println("You can check inventory, buy [item name], or leave");
-            userInput = getInput("SHOPKEEP: What do you want to do?");
-            checkInputShop(userInput); 
-        }
-    }  
-    
-    public static void checkInputShop(String userInput){
-        if (userInput.equalsIgnoreCase("leave"))
-            SHOPRUN = false;
-        if (userInput.equalsIgnoreCase("check inventory")){
-            System.out.println("We have a HEALTH POTION(+5 MAX HP), STRENGTH POTION(+5 STRENGTH), SPEED POTION(+5 RUN SPEED)");
-            System.out.println("They are all 5 gold.");
-        }
-        if (userInput.equalsIgnoreCase("buy HEALTH POTION")){
-             if(user.getGold()>=5){
-                 user.loseGold(5);
-                 user.healthPotion();
-                 System.out.printf("Your HP is now %d.%n",user.getMaxHP());
-             }else{System.out.println("You don't have enough gold.");}
-        }
-        if (userInput.equalsIgnoreCase("buy STRENGTH POTION")){
-             if(user.getGold()>=5){
-                 user.loseGold(5);
-                 user.strengthPotion();
-                 System.out.printf("Your Strength is now %d Newtons.%n",user.getAttackPower());
-             }else{System.out.println("You don't have enough gold.");}
-        }
-        if (userInput.equalsIgnoreCase("buy SPEED POTION")){
-             if(user.getGold()>=5){
-                 user.loseGold(5);
-                 user.speedPotion();
-                 System.out.printf("Your Speed is now %d km/hr.%n",user.getRunSpeed());
-             }else{System.out.println("You don't have enough gold.");}
-        }
-        if (userInput.equalsIgnoreCase("save"))
-             System.out.println("You have to leave the shop to save");
-    }
-    
-    public static void dungeon(){
-        Dungeon dungeon = new Dungeon();        
-    }   
-
 }

@@ -1,0 +1,23 @@
+public enum OWTeam{
+    UNKNOWN,
+    Reign,
+    Uprising,
+    Hunters,
+    Fuel,
+    Mayhem,
+    Charge,
+    Spark,
+    Outlaws,
+    Spitfire,
+    Gladiators,
+    Valiant,
+    Excelsior,
+    Eternal,
+    Fusion,
+    Shock,
+    Dynasty,
+    Dragons,
+    Defiant,
+    Titans,
+    Justice
+}
